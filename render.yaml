@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: yunggeng-oa
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:${PORT:-8000}
+    healthCheckPath: /healthz
+    envVars:
+      - key: FLASK_DEBUG
+        value: "0"

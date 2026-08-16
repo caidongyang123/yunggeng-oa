@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+import os
 from models import db, User, Announcement, Approval
 
 app = Flask(__name__)
@@ -167,6 +168,13 @@ def approval_review(aid):
     return render_template('approval_detail.html', a=a)
 
 
+@app.route('/healthz')
+def healthz():
+    return 'ok', 200
+
+
 if __name__ == '__main__':
     create_db()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_DEBUG', '1') == '1'
+    app.run(host='0.0.0.0', port=port, debug=debug)
