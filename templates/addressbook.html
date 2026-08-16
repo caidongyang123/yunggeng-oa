@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block page_title %}通讯录{% endblock %}
+{% block content %}
+<div class="cards">
+  {% for u in users %}
+    <article class="card person">
+      <div class="avatar">{{ u.name[0] }}</div>
+      <div class="person-info">
+        <div class="person-name">{{ u.name }}
+          <span class="tag tag-dept">{{ u.department }}</span>
+        </div>
+        <div class="person-pos">{{ u.position }}</div>
+        <div class="person-contact">📞 {{ u.phone }}</div>
+        <div class="person-contact">✉️ {{ u.email }}</div>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+{% endblock %}

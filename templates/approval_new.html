@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block page_title %}提交申请{% endblock %}
+{% block content %}
+<section class="panel form-panel">
+  <h2>提交审批申请</h2>
+  <form method="post" class="form">
+    <label>审批类型</label>
+    <select name="type">
+      {% for t in approval_types %}
+        <option value="{{ t }}">{{ t }}</option>
+      {% endfor %}
+    </select>
+    <label>标题</label>
+    <input name="title" placeholder="如：事假 1 天" required>
+    <label>详细说明</label>
+    <textarea name="content" rows="6" placeholder="请填写申请事由" required></textarea>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">提交申请</button>
+      <a class="btn" href="{{ url_for('approvals') }}">取消</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

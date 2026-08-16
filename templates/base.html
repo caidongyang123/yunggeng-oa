@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ company }} OA 系统{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">耘</div>
+        <div>
+          <div class="brand-name">{{ company }}</div>
+          <div class="brand-sub">OA 办公系统</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}" class="nav-item">🏠 工作台</a>
+        <a href="{{ url_for('announcements') }}" class="nav-item">📢 公告通知</a>
+        <a href="{{ url_for('addressbook') }}" class="nav-item">👥 通讯录</a>
+        <a href="{{ url_for('approvals') }}" class="nav-item">✅ 审批流程</a>
+      </nav>
+      <div class="sidebar-foot">耘耕牧业 · 让办公更简单</div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="page-title">{% block page_title %}工作台{% endblock %}</div>
+        <div class="user-box">
+          <span class="hello">你好，{{ current_user.name }}</span>
+          <span class="role-badge">{{ '管理员' if current_user.role == 'admin' else '员工' }}</span>
+          <a href="{{ url_for('logout') }}" class="logout">退出</a>
+        </div>
+      </header>
+      <main class="content">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block page_title %}公告通知{% endblock %}
+{% block content %}
+<div class="toolbar">
+  {% if current_user.role == 'admin' %}
+    <a class="btn btn-primary" href="{{ url_for('announcement_new') }}">+ 发布新公告</a>
+  {% endif %}
+</div>
+{% if items %}
+  <div class="cards">
+    {% for a in items %}
+      <article class="card">
+        <h3>{{ a.title }}</h3>
+        <div class="card-meta">{{ a.author.name }} · {{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+        <p class="card-body">{{ a.content }}</p>
+      </article>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="empty">暂无公告</p>
+{% endif %}
+{% endblock %}

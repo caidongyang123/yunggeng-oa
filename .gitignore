@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+venv/
+.venv/
+oa.db
+*.db
+.pytest_cache/
+.DS_Store
+server.log
+server.err
+cj.txt
+cj2.txt

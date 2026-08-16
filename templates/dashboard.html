@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block page_title %}工作台{% endblock %}
+{% block content %}
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-num">{{ announcement_count }}</div>
+    <div class="stat-label">📢 公告通知</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">{{ employees }}</div>
+    <div class="stat-label">👥 通讯录人数</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">{{ my_approvals|length }}</div>
+    <div class="stat-label">📝 我的申请</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">{{ pending|length if current_user.role == 'admin' else my_pending|length }}</div>
+    <div class="stat-label">⏳ 待办审批</div>
+  </div>
+</div>
+
+<div class="grid-2">
+  <section class="panel">
+    <div class="panel-head">
+      <h2>最新公告</h2>
+      <a class="link" href="{{ url_for('announcements') }}">查看全部 →</a>
+    </div>
+    {% if announcements %}
+      <ul class="list">
+        {% for a in announcements %}
+          <li>
+            <div class="item-title">{{ a.title }}</div>
+            <div class="item-meta">{{ a.author.name }} · {{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">暂无公告</p>
+    {% endif %}
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>我的审批</h2>
+      <a class="link" href="{{ url_for('approvals') }}">查看全部 →</a>
+    </div>
+    {% if my_approvals %}
+      <ul class="list">
+        {% for a in my_approvals[:5] %}
+          <li>
+            <div class="item-title">{{ a.type }} · {{ a.title }}
+              <span class="tag tag-{{ a.status }}">{{ a.status }}</span></div>
+            <div class="item-meta">{{ a.created_at.strftime('%Y-%m-%d') }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty">还没有提交过申请</p>
+    {% endif %}
+    <a class="btn btn-primary mt" href="{{ url_for('approval_new') }}">+ 提交新申请</a>
+  </section>
+</div>
+{% endblock %}

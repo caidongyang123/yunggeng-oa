@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block page_title %}发布公告{% endblock %}
+{% block content %}
+<section class="panel form-panel">
+  <h2>发布新公告</h2>
+  <form method="post" class="form">
+    <label>标题</label>
+    <input name="title" placeholder="请输入公告标题" required>
+    <label>内容</label>
+    <textarea name="content" rows="8" placeholder="请输入公告内容" required></textarea>
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">发布</button>
+      <a class="btn" href="{{ url_for('announcements') }}">取消</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

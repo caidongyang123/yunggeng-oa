@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block page_title %}审批详情{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-head">
+    <h2>{{ a.type }} · {{ a.title }}</h2>
+    <span class="tag tag-{{ a.status }}">{{ a.status }}</span>
+  </div>
+  <div class="detail">
+    <div class="detail-row"><span>申请人</span><b>{{ a.applicant.name }}（{{ a.applicant.department }}）</b></div>
+    <div class="detail-row"><span>提交时间</span><b>{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</b></div>
+    <div class="detail-row"><span>详细说明</span><b>{{ a.content }}</b></div>
+    {% if a.remark %}<div class="detail-row"><span>审批意见</span><b>{{ a.remark }}</b></div>{% endif %}
+  </div>
+
+  {% if current_user.role == 'admin' and a.status == '待审批' %}
+    <form method="post" class="form mt">
+      <label>审批意见</label>
+      <textarea name="remark" rows="3" placeholder="可填写审批说明"></textarea>
+      <div class="form-actions">
+        <button class="btn btn-primary" name="status" value="已通过" type="submit">✅ 通过</button>
+        <button class="btn btn-danger" name="status" value="已驳回" type="submit">❌ 驳回</button>
+      </div>
+    </form>
+  {% endif %}
+  <a class="btn mt" href="{{ url_for('approvals') }}">← 返回列表</a>
+</section>
+{% endblock %}
